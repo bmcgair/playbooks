@@ -1,0 +1,22 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    vpc_network: 10.80.0.0
+    vpc_mask: 255.255.0.0
+    ca_name:  cooCA
+    vpn_name: awesomenew
+    vpn_email: bill@mcgair.com
+
+- name: Configure instance(s)
+  hosts: tag_Name_natvpn_prod
+  user: ubuntu
+  become: yes
+
+  roles:
+    - webmin
+    - iptables
+    - makevpn

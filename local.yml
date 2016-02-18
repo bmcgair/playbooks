@@ -1,0 +1,8 @@
+---
+- hosts: natvpn
+  user: root
+  
+  roles:
+    - webmin
+    - iptables
+    - openvpn

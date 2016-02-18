@@ -1,0 +1,27 @@
+---
+- name: launch a cloudformations stack
+  cloudformation:
+    stack_name="{{stack_name}}-stack"
+    state="{{state}}"
+    region="{{aws_region}}"
+    disable_rollback="{{disable_rollback}}"
+    template="{{json_template}}"
+  args:
+    template_parameters:
+      KeyName: "{{aws_keypair}}"
+      SSHLocation: "{{mgmt_ip}}"
+      Owner: "{{owner}}"
+      VPCName: "{{stack_name}}"
+      CIDR: "{{cidr_base}}.0.0{{cidr_mask}}"
+      CIDRPubNet: "{{cidr_base}}.0.0{{subnet_mask}}"
+      CIDRdmzA: "{{cidr_base}}.1.0{{subnet_mask}}"
+      CIDRdmzB: "{{cidr_base}}.2.0{{subnet_mask}}"
+      CIDRdmzC: "{{cidr_base}}.3.0{{subnet_mask}}"
+      CIDRprivA: "{{cidr_base}}.10.0{{subnet_mask}}"
+      CIDRprivB: "{{cidr_base}}.20.0{{subnet_mask}}"
+      CIDRprivC: "{{cidr_base}}.30.0{{subnet_mask}}"
+      CIDRdbA: "{{cidr_base}}.110.0{{subnet_mask}}"
+      CIDRdbB: "{{cidr_base}}.120.0{{subnet_mask}}"
+      CIDRdbC: "{{cidr_base}}.130.0{{subnet_mask}}"
+- name: show stack outputs
+  debug: msg="My stack outputs are {{stack.stack_outputs}}"

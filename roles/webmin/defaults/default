@@ -1,0 +1,13 @@
+vpc_network: 10.80.0.0
+vpc_mask: 255.255.0.0
+ca_name:  defaultCA
+vpn_name: defaultVPN
+vpn_country: US
+vpn_state: OR
+vpn_city: Portland
+vpn_org: Acme Corp
+vpn_email: root@acmecorp.com
+vpn_OU: web division
+vpn_CN: mcgair.com
+webmin_user: webmin
+webmin_passwd: $6$.A6IRG6cRakYv$rPx32Pc8gR/hQZ1ogtyL1VJkkjseAXdc5IL4bF0144dkjzH8OcDbCDQdKwPHoEXo/7Vqpe651.xlzgSldw1VH1

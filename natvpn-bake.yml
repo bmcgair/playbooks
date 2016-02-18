@@ -1,0 +1,61 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    instance_type: t2.micro
+    count: 1
+    assign_public_ip: yes
+    vpc_subnet_id: subnet-a0121ed7
+    image: ami-9abea4fb
+    instance_tags: '{"Name":"{{ app_name }}_{{ server_env }}","Role":"{{ app_name }}"}'
+    app_name: natvpn
+    server_env: prod
+    group: '{{ app_name }}_{{ server_env }}'
+    vpc_network: 10.80.0.0
+    vpc_mask: 255.255.0.0
+    vpn_email: bill@mcgair.com
+    ca_name: HackOregonCA
+    vpn_name: HackOregonVPN
+    vpn_org: HackOregon
+
+    security_groups:
+      - sg_name: "{{group}}"
+        sg_description: "ansg"
+        sg_rules:
+        - proto: tcp
+          from_port: 22
+          to_port: 22
+          cidr_ip: "0.0.0.0/0"
+        - proto: udp
+          from_port: 1194
+          to_port: 1194
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 10000
+          to_port: 10000
+          cidr_ip: 0.0.0.0/0
+  roles:
+    - ec2-provision-instance
+
+- name: Configure instance(s)
+  hosts: self
+  user: ubuntu
+  become: yes
+
+  roles:
+    - webmin
+    - iptables
+    - makevpn
+
+- name: snap an AMI and terminate the instance
+  hosts: localhost
+  connection: local
+  vars:
+    ami_name: natvpn
+
+  roles:
+    - snap-ami
+    - ec2-term

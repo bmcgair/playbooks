@@ -1,0 +1,14 @@
+---
+aws_access_key: 
+aws_secret_key:
+stack_name: "default"
+state: "present"
+aws_region: "us-west-2"
+disable_rollback: "yes"
+aws_keypair: "gaidopair"
+json_template: "files/vpc_build.json"
+mgmt_ip: "24.21.200.124/32"
+owner: "billm"
+cidr_base: "10.10"
+cidr_mask: "/16"
+subnet_mask: "/24"

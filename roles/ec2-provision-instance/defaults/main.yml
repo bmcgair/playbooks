@@ -1,0 +1,12 @@
+---
+aws_access_key: 
+aws_secret_key: 
+keypair: 
+vpc_id:
+vpc_subnet_id:
+instance_type: t2.micro
+count: 1
+region: us-west-2
+assign_public_ip: no
+wait: yes
+group:

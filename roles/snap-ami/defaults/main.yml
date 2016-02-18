@@ -1,0 +1,9 @@
+---
+aws_access_key: 
+aws_secret_key:
+aws_acct_vpc_id: vpc-4deeff28
+aws_region: us-west-2
+aws_vpc_subnet: subnet-e9c3278d
+aws_keypair: gaidopair
+aws_group: default
+ami_name: default
