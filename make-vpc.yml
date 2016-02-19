@@ -10,7 +10,7 @@
     state: "present"
     aws_region: "us-west-2"
     disable_rollback: "yes"
-    aws_keypair: "gaidopair"
+    aws_keypair: "xaas-or"
     json_template: "roles/cloudform-launch/files/vpc_build_no_bastion.json"
     mgmt_ip: "24.21.200.124/32"
     cidr_base: "10.50"

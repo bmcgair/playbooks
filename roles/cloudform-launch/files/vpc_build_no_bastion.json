@@ -38,12 +38,6 @@
       "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
       "ConstraintDescription": "must be a valid IP address of the form x.x.x.x."
     },
-    "CIDRPubNet" : {
-      "Type" : "String",
-      "Description" : "CIDR for first DMZ subnet. This must be a valid IP address for Subnet",
-      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
-      "ConstraintDescription": "must be a valid IP address of the form x.x.x.x/x."
-    },
     "CIDRdmzA" : {
       "Type" : "String",
       "Description" : "CIDR for DMZ subnet. This must be a valid IP address for Subnet",
@@ -168,20 +162,6 @@
           { "Key" : "Application", "Value" : { "Ref" : "AWS::StackName" } },
           { "Key" : "Network", "Value" : "DMZ" },
           { "Key" : "Name", "Value" : { "Ref" : "VPCName"} }
-        ]
-      }
-    },
-
-    "SubnetPubNet" : {
-      "Type" : "AWS::EC2::Subnet",
-      "Properties" : {
-        "VpcId" : { "Ref" : "VPC" },
-        "AvailabilityZone" : "us-west-2a",
-        "CidrBlock" : { "Ref" : "CIDRPubNet" },
-        "Tags" : [
-          { "Key" : "Application", "Value" : { "Ref" : "AWS::StackName" } },
-          { "Key" : "Name", "Value" :  "PubNet" },
-          { "Key" : "Network", "Value" : "DMZ" }
         ]
       }
     },
@@ -457,13 +437,6 @@
       "Properties" : {
         "SubnetId" : { "Ref" : "SubnetCIDRdbC" },
         "RouteTableId" : { "Ref" : "PrivateRouteTable" }
-      }
-    },
-    "PubNetSubnetRouteTableAssociation" : {
-      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
-      "Properties" : {
-        "SubnetId" : { "Ref" : "SubnetPubNet" },
-        "RouteTableId" : { "Ref" : "PublicRouteTable" }
       }
     },
 

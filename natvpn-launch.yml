@@ -10,17 +10,10 @@
     assign_public_ip: yes
     vpc_subnet_id: subnet-a0121ed7
     image: ami-9abea4fb
-    instance_tags: '{"Name":"{{ app_name }}_{{ server_env }}","Role":"{{ app_name }}"}'
-    app_name: natvpn
-    server_env: prod
-    group: '{{app_name}}_{{server_env}}'
-
-    vpc_network: 10.80.0.0
-    vpc_mask: 255.255.0.0
-    vpn_email: "bill@mcgair.com"
-    ca_name: "HackOregonCA"
-    vpn_name: "HackOregonVPN"
-    vpn_org: "HackOregon"
+    instance_tags: '{"Name":"{{application}}_{{owner}}","Role":"{{application}}"}'
+    application: natvpn
+    owner: hackoregon
+    group: '{{application}}_{{owner}}'
 
     security_groups:
       - sg_name: "{{group}}"
@@ -37,13 +30,13 @@
         - proto: tcp
           from_port: 10000
           to_port: 10000
-          cidr_ip: 24.21.200.124/32
+          cidr_ip: "{{mgmt_ip}}"
   roles:
     - ec2-provision-group
     - ec2-provision-instance
 
 - name: Configure instance(s)
-  hosts: thisrun
+  hosts: tag_Name_natvpn_hackoregon
   user: ubuntu
   become: yes
 
@@ -51,5 +44,4 @@
     - webmin
     - iptables
     - makevpn
-
-#- include: natvpn-configure.yml
+    - vpnusers

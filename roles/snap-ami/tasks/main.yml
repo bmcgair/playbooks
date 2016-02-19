@@ -7,6 +7,5 @@
            region={{aws_region}}
            name={{ami_name}}
 
-
   register: instance
 - debug: msg=" AMI id {{instance.image_id}}"

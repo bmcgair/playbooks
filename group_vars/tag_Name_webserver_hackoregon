@@ -1,0 +1,5 @@
+my_users:
+  billm:
+    group: "admin"
+    shell: "/bin/bash"
+    passwd: "$6$Uyv5il87A$L.2rRNFPLIsKOxqdi3coXigOvrnSGGAtTNqQNl08ke8QTla6OgE90j52cMSDyTnVocMM7zv9.BNJzsQWeTVJJ/"

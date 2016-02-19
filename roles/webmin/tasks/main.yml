@@ -26,25 +26,3 @@
 
 - name: ensure webmin is running (and enable it at boot)
   service: name=webmin state=started enabled=yes
-
-- name: make openvpn keys dir
-  file: path=/etc/openvpn/keys owner=root mode=0755 state=directory
-
-- name: make openvpn clients dir
-  file: path=/etc/openvpn/clients owner=root mode=0755 state=directory
-
-- name: make openvpn dirs
-  file: path={{item}} state=directory mode=755
-  with_items:
-    - "/etc/openvpn/servers"
-    - "/etc/openvpn/servers/{{vpn_name}}"
-    - "/etc/openvpn/servers/{{vpn_name}}/ccd"
-    - "/etc/openvpn/servers/{{vpn_name}}/bin"
-    - "/etc/openvpn/servers/{{vpn_name}}/logs"
-
-- name: create CA dir
-  file: path=/etc/openvpn/keys/{{ca_name}} owner=root mode=0755 state=directory
-
-- name: install ca.config for webmin
-  template: src=templates/ca.config.j2
-            dest=/etc/openvpn/keys/{{ca_name}}/ca.config
