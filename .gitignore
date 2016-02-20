@@ -1,5 +1,4 @@
-group_vars/all/secrets
-group_vars/all/users.yml
+group_vars/all/vault
 group_vars/tag_Name*
 .DS_Store
 *.DS_Store

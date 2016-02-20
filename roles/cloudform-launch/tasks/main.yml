@@ -13,15 +13,12 @@
       Owner: "{{owner}}"
       VPCName: "{{stack_name}}"
       CIDR: "{{vpc_base}}.0.0/{{vpc_mask}}"
-      CIDRdmzA: "{{vpc_base}}.1.0/{{subnet_mask}}"
-      CIDRdmzB: "{{vpc_base}}.2.0/{{subnet_mask}}"
-      CIDRdmzC: "{{vpc_base}}.3.0/{{subnet_mask}}"
-      CIDRprivA: "{{vpc_base}}.10.0/{{subnet_mask}}"
-      CIDRprivB: "{{vpc_base}}.20.0/{{subnet_mask}}"
-      CIDRprivC: "{{vpc_base}}.30.0/{{subnet_mask}}"
-      CIDRdbA: "{{vpc_base}}.110.0/{{subnet_mask}}"
-      CIDRdbB: "{{vpc_base}}.120.0/{{subnet_mask}}"
-      CIDRdbC: "{{vpc_base}}.130.0/{{subnet_mask}}"
+      CIDRdmzA: "{{vpc_base}}.0.0/{{subnet_mask}}"
+      CIDRdmzB: "{{vpc_base}}.16.0/{{subnet_mask}}"
+      CIDRdmzC: "{{vpc_base}}.32.0/{{subnet_mask}}"
+      CIDRprivA: "{{vpc_base}}.112.0/{{subnet_mask}}"
+      CIDRprivB: "{{vpc_base}}.128.0/{{subnet_mask}}"
+      CIDRprivC: "{{vpc_base}}.144.0/{{subnet_mask}}"
   register: stack
 
 - ec2_vpc_subnet_facts:

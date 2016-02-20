@@ -12,8 +12,8 @@ json_template: "roles/cloudform-launch/files/vpc_build_no_bastion.json"
 mgmt_ip: "24.21.200.124/32"
 vpc_base: "10.10"
 vpc_mask: "16"
-subnet_mask: "24"
 vpc_mask_long: "255.255.0.0"
+subnet_mask: "20"
 
 # create all security groups
 security_groups:
@@ -42,6 +42,10 @@ security_groups:
       cidr_ip: "{{mgmt_ip}}"
 
 # vpn defaults
+# allocate an eip and assign here
+# to persist vpn addr across relaunches
+# of the natvpn box
+vpn_ip: 52.36.212.252
 vpn_name: HackOregonVPN
 vpn_org: HackOregon
 vpn_OU: DevOps Division

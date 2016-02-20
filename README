@@ -1,0 +1,36 @@
+#
+# Here are the basic steps to get this repo working
+
+1. Allocate an elastic ip from the aws console.
+2. edit group_vars/all/main.yml and add replace the value of vpn_ip: with your eip
+3. Change names and values in group_vars/all/main.yml as appropriate
+
+4. ansible-vault create group_vars/all/vault
+You need to define the following variables in this structure:
+-------------------------------------------
+aws_access_key: xxxxxxxxxxxxxxxxxxxx
+aws_secret_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+keypair: mykepair
+
+webmin_user: webmin
+webmin_passwd: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# Users are in a dictionary structure like so
+my_users:
+  user1:
+    group: "admin"
+    shell: "/bin/bash"
+    passwd: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    vpn_phrase: "TheVPNPassPhrase"
+    pub_key:  ssh-rsa xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  user2:
+    group: "wheel"
+    shell: "/bin/bash"
+    passwd: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    vpn_phrase: "AnotherVPNPassPhrase"
+    pub_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+-------------------------------------------
+pub_key is the user's id_rsa.pub file. Just paste the whole contents of that file after pub_key:
+
+5. add the vault password you used in step 3 to ~/.vault_pass.txt. chmod 600 ~/.vault_pass.txt

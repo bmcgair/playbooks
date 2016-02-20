@@ -14,12 +14,13 @@
     application: natvpn
     owner: hackoregon
     bastion_group: '{{application}}_{{owner}}'
-    id: '{{bastion_group}}_{{region}}'
+    id: '{{bastion_group}}_{{region}}02'
 
   roles:
     - cloudform-launch
     - ec2-provision-groups
     - { role: ec2-provision-instance, vpc_subnet_id: "{{bastion_subnet_id}}", group: "{{bastion_group}}" }
+    - ec2-eip
 
 #  post_tasks:
 #    - meta: refresh_inventory
