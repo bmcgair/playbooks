@@ -3,7 +3,7 @@
 # stack defaults
 group_vars_path: "Users/billm/repos/playbooks/group_vars/"
 stack_name: "HackOregon"
-owner: "Bill Mcgair"
+owner: "Bill McGair"
 state: "present"
 region: "us-west-2"
 disable_rollback: "yes"
@@ -46,12 +46,12 @@ security_groups:
 # to persist vpn addr across relaunches
 # of the natvpn box
 vpn_ip: 52.36.212.252
-vpn_name: HackOregonVPN
-vpn_org: HackOregon
+vpn_name: {{stack_name}}VPN
+vpn_org: {{stack_name}}
 vpn_OU: DevOps Division
 vpn_CN: hackoregon.org
 vpn_city: Portland
 vpn_state: OR
 vpn_country: US
-ca_name:  HackOregonCA
+ca_name:  {{stack_name}}CA
 vpn_email: bill@mcgair.com
