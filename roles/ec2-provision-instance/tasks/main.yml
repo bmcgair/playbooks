@@ -12,6 +12,7 @@
     group: "{{group}}"
     assign_public_ip: "{{assign_public_ip}}"
     instance_tags: "{{instance_tags}}"
+    id: "{{id}}"
     wait: "{{wait}}"
   register: ec2_info
 
