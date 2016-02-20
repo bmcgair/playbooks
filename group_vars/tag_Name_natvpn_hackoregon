@@ -1,10 +1,1 @@
-instance_type: t2.nano
-count: 1
-assign_public_ip: yes
-image: ami-9abea4fb
-wait: yes
-instance_tags: '{"Name":"{{application}}_{{owner}}","Role":"{{application}}"}'
-application: natvpn
-owner: hackoregon
-bastion_group: '{{application}}_{{owner}}'
-vpn_ip: 192.168.123.3
+vpn_ip: 52.33.201.144

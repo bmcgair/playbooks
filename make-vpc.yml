@@ -4,15 +4,32 @@
   connection: local
   gather_facts: true
 
+  vars:
+    instance_type: t2.nano
+    count: 1
+    assign_public_ip: yes
+    image: ami-9abea4fb
+    wait: yes
+    instance_tags: '{"Name":"{{application}}_{{owner}}","Role":"{{application}}"}'
+    application: natvpn
+    owner: hackoregon
+    bastion_group: '{{application}}_{{owner}}'
+
   roles:
     - cloudform-launch
     - ec2-provision-groups
     - { role: ec2-provision-instance, vpc_subnet_id: "{{bastion_subnet_id}}", group: "{{bastion_group}}" }
 
+#  post_tasks:
+#    - meta: refresh_inventory
+
 - name: Configure natvpn instance(s)
   hosts: tag_Name_natvpn_hackoregon
   user: ubuntu
   become: yes
+
+  pre_tasks:
+    - include_vars: group_vars/tag_Name_natvpn_hackoregon
 
   roles:
     - webmin

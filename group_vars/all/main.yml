@@ -15,17 +15,6 @@ vpc_mask: "16"
 subnet_mask: "24"
 vpc_mask_long: "255.255.0.0"
 
-# Bastion instance
-instance_type: t2.nano
-count: 1
-assign_public_ip: yes
-image: ami-9abea4fb
-wait: yes
-instance_tags: '{"Name":"{{application}}_{{owner}}","Role":"{{application}}"}'
-application: natvpn
-owner: hackoregon
-bastion_group: '{{application}}_{{owner}}'
-
 # create all security groups
 security_groups:
   - sg_name: "default"
