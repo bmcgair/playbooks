@@ -3,7 +3,7 @@
 :INPUT ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 :PREROUTING ACCEPT [0:0]
--A POSTROUTING -s {{vpc_network}}/{{vpc_mask}} -o eth0 -j MASQUERADE
+-A POSTROUTING -s {{vpc_base}}.0.0/{{vpc_mask}} -o eth0 -j MASQUERADE
 COMMIT
 *mangle
 :PREROUTING ACCEPT [158:14332]

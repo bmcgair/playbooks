@@ -1,4 +1,5 @@
 group_vars/all/secrets
+group_vars/all/users.yml
 .DS_Store
 *.DS_Store
 */.DS_Store

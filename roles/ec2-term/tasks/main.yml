@@ -1,5 +1,5 @@
 ---
-- name: terminating {{ec2_info.instance_ids}} in region {{aws_region}}
+- name: terminating {{ec2_info.instance_ids}} in region {{region}}
   ec2: state=absent
        instance_ids={{ec2_info.instance_ids}}
-       region={{aws_region}}
+       region={{region}}

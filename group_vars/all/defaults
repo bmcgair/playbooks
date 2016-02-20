@@ -1,6 +1,0 @@
-instance_type: t2.micro
-count: 1
-region: us-west-2
-assign_public_ip: no
-wait: yes
-mgmt_ip: "24.21.200.124/32"

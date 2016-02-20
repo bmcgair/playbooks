@@ -3,12 +3,12 @@
   cloudformation:
     stack_name="{{stack_name}}-stack"
     state="{{state}}"
-    region="{{aws_region}}"
+    region="{{region}}"
     disable_rollback="{{disable_rollback}}"
     template="{{json_template}}"
   args:
     template_parameters:
-      KeyName: "{{aws_keypair}}"
+      KeyName: "{{keypair}}"
       SSHLocation: "{{mgmt_ip}}"
       Owner: "{{owner}}"
       VPCName: "{{stack_name}}"
@@ -22,5 +22,16 @@
       CIDRdbA: "{{vpc_base}}.110.0/{{subnet_mask}}"
       CIDRdbB: "{{vpc_base}}.120.0/{{subnet_mask}}"
       CIDRdbC: "{{vpc_base}}.130.0/{{subnet_mask}}"
-- name: show stack outputs
-  debug: msg="My stack outputs are {{stack.stack_outputs}}"
+  register: stack
+
+- ec2_vpc_subnet_facts:
+    region: "{{region}}"
+    filters:
+      vpc-id: "{{stack.stack_outputs.VPCId}}"
+      "tag:Name": "dmz-A"
+  register: dmza_facts
+
+- set_fact:
+    vpc_id: "{{stack.stack_outputs.VPCId}}"
+- set_fact:
+    bastion_subnet_id: "{{dmza_facts.subnets.0.id}}"

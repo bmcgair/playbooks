@@ -5,7 +5,7 @@ ca ca.crt
 dh dh2048.pem
 cert {{item.key}}.crt
 key {{item.key}}.key
-remote {{vpn_eip}} 1194
+remote "{{vpn_ip}}" 1194
 tls-auth ta.key 1
 cipher DES-CBC
 user nobody
@@ -19,5 +19,4 @@ persist-tun
 float
 resolv-retry infinite
 nobind
-route {{vpc_base}}.0.0 {{vpc_mask}} vpn_gateway default
-
+route {{vpc_base}}.0.0 {{vpc_mask_long}} vpn_gateway default

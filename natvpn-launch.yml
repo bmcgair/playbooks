@@ -15,6 +15,7 @@
     owner: hackoregon
     group: '{{application}}_{{owner}}'
 
+
     security_groups:
       - sg_name: "{{group}}"
         sg_description: "ansg"
@@ -31,8 +32,9 @@
           from_port: 10000
           to_port: 10000
           cidr_ip: "{{mgmt_ip}}"
+
   roles:
-    - ec2-provision-group
+    - ec2-provision-groups
     - ec2-provision-instance
 
 - name: Configure instance(s)

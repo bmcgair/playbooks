@@ -1,0 +1,64 @@
+---
+
+# stack defaults
+group_vars_path: "Users/billm/repos/playbooks/group_vars/"
+stack_name: "HackOregon"
+owner: "Bill Mcgair"
+state: "present"
+region: "us-west-2"
+disable_rollback: "yes"
+keypair: "xaas-or"
+json_template: "roles/cloudform-launch/files/vpc_build_no_bastion.json"
+mgmt_ip: "24.21.200.124/32"
+vpc_base: "10.10"
+vpc_mask: "16"
+subnet_mask: "24"
+vpc_mask_long: "255.255.0.0"
+
+# Bastion instance
+instance_type: t2.nano
+count: 1
+assign_public_ip: yes
+image: ami-9abea4fb
+wait: yes
+instance_tags: '{"Name":"{{application}}_{{owner}}","Role":"{{application}}"}'
+application: natvpn
+owner: hackoregon
+bastion_group: '{{application}}_{{owner}}'
+
+# create all security groups
+security_groups:
+  - sg_name: "default"
+    sg_description: "default allow ssh"
+    sg_rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+
+  - sg_name: "{{bastion_group}}"
+    sg_description: "Bastion SG"
+    sg_rules:
+    - proto: tcp
+      from_port: 22
+      to_port: 22
+      cidr_ip: "0.0.0.0/0"
+    - proto: udp
+      from_port: 1194
+      to_port: 1194
+      cidr_ip: 0.0.0.0/0
+    - proto: tcp
+      from_port: 10000
+      to_port: 10000
+      cidr_ip: "{{mgmt_ip}}"
+
+# vpn defaults
+vpn_name: HackOregonVPN
+vpn_org: HackOregon
+vpn_OU: DevOps Division
+vpn_CN: hackoregon.org
+vpn_city: Portland
+vpn_state: OR
+vpn_country: US
+ca_name:  HackOregonCA
+vpn_email: bill@mcgair.com

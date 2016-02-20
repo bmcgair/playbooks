@@ -1,9 +1,0 @@
----
-aws_access_key: 
-aws_secret_key:
-aws_acct_vpc_id: 
-aws_region: us-west-2
-aws_vpc_subnet: 
-aws_keypair: 
-aws_group: default
-ami_name: default

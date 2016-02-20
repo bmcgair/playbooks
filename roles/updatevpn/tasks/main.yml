@@ -1,4 +1,0 @@
----
-
-- name: ensure openvpn is running (and enable it at boot)
-  service: name=openvpn state=started enabled=yes

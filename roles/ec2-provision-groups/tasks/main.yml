@@ -1,5 +1,5 @@
 ---
-- name: "create or modify Security Group: {{group}} in {{vpc_id}}"
+- name: "create or modify Security Groups in {{vpc_id}}"
   ec2_group:
     state: present
     name: "{{item.sg_name}}"

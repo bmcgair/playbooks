@@ -1,14 +1,10 @@
-vpc_base: "10.80"
-vpc_mask: 16
-mgmt_ip: "24.21.200.124/32"
-vpn_eip: "52.36.210.38"
-ca_name:  HackOregonCA
-vpn_org: HackOregon
-vpn_name: HackOregonVPN
-vpn_email: bill@mcgair.com
-my_users:
-  billm:
-    group: "admin"
-    shell: "/bin/bash"
-    passwd: "$6$Uyv5il87A$L.2rRNFPLIsKOxqdi3coXigOvrnSGGAtTNqQNl08ke8QTla6OgE90j52cMSDyTnVocMM7zv9.BNJzsQWeTVJJ/"
-    phrase: "turdbl0ssom"
+instance_type: t2.nano
+count: 1
+assign_public_ip: yes
+image: ami-9abea4fb
+wait: yes
+instance_tags: '{"Name":"{{application}}_{{owner}}","Role":"{{application}}"}'
+application: natvpn
+owner: hackoregon
+bastion_group: '{{application}}_{{owner}}'
+vpn_ip: 52.36.132.164

@@ -2,18 +2,20 @@
 
 - hosts: localhost
   connection: local
-  gather_facts: false
-
-  vars:
-    stack_name: "gaido"
-    owner: "Bill McGair"
-    state: "present"
-    aws_region: "us-west-2"
-    disable_rollback: "yes"
-    aws_keypair: "xaas-or"
-    json_template: "roles/cloudform-launch/files/vpc_build_no_bastion.json"
-    mgmt_ip: "24.21.200.124/32"
-    cidr_base: "10.50"
+  gather_facts: true
 
   roles:
     - cloudform-launch
+    - ec2-provision-groups
+    - { role: ec2-provision-instance, vpc_subnet_id: "{{bastion_subnet_id}}", group: "{{bastion_group}}" }
+
+- name: Configure natvpn instance(s)
+  hosts: tag_Name_natvpn_hackoregon
+  user: ubuntu
+  become: yes
+
+  roles:
+    - webmin
+    - iptables
+    - makevpn
+    - vpnusers
