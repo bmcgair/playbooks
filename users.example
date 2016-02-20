@@ -1,6 +1,6 @@
 ---
-# Create users.yml in this format, using:
-# ansible-vault edit users.yml
+# Create group_vars/all/users.yml in this format, using:
+# ansible-vault edit group_vars/all/users.yml
 
 # The webmin user password:
 # Generate all passwords with mkpasswd --method=SHA-512

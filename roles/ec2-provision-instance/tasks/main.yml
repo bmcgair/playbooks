@@ -20,7 +20,6 @@
 - debug: var=item
   with_items: ec2_info.instance_ids
 
-
 - add_host: hostname={{item.public_ip}} groupname=tag_Name_{{group}}
   with_items: ec2_info.instances
 
@@ -28,7 +27,7 @@
     vpn_ip: "{{item.public_ip}}"
   with_items: "{{ec2_info.instances}}"
 
-- name: update vpn_ip var
+- name: update vpn_ip var to {{vpn_ip}}
   replace:
     dest: "/{{group_vars_path}}tag_Name_{{group}}"
     regexp: "^vpn_ip:.*$"
