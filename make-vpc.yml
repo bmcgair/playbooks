@@ -20,7 +20,7 @@
     - cloudform-launch
     - ec2-provision-groups
     - { role: ec2-provision-instance, vpc_subnet_id: "{{bastion_subnet_id}}", group: "{{bastion_group}}" }
-    - ec2-eip
+    - ec2-assign-eip
 
 #  post_tasks:
 #    - meta: refresh_inventory
