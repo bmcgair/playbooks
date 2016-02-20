@@ -33,4 +33,10 @@ my_users:
 -------------------------------------------
 pub_key is the user's id_rsa.pub file. Just paste the whole contents of that file after pub_key:
 
-5. add the vault password you used in step 3 to ~/.vault_pass.txt. chmod 600 ~/.vault_pass.txt
+5. edit make-vpc.yml and increment the counter for the id variable:
+"id: '{{bastion_group}}_{{region}}02'" becomes "id: '{{bastion_group}}_{{region}}03'", etc 
+this id variable implements ec2 client tokens for idempotency.
+
+http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+
+6. add the vault password you used in step 3 to ~/.vault_pass.txt. chmod 600 ~/.vault_pass.txt
