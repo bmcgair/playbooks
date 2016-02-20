@@ -2,11 +2,17 @@
 # Here are the basic steps to get this repo working
 
 1. Allocate an elastic ip from the aws console.
-2. edit group_vars/all/main.yml and add replace the value of vpn_ip: with your eip
+
+2. edit group_vars/all/main.yml and add replace the value of "vpn_ip:" with your eip
+to ensure that the vpn ip remains static across instance launches.
+
 3. Change names and values in group_vars/all/main.yml as appropriate
 
-4. ansible-vault create group_vars/all/vault
-You need to define the following variables in this structure:
+4. Use ansible-vault to create the vault file:
+ansible-vault create group_vars/all/vault
+
+You need to define the following variables in the group_vars/all/vault file:
+All password hashes should be generated with: mkpasswd --method=SHA-512
 -------------------------------------------
 aws_access_key: xxxxxxxxxxxxxxxxxxxx
 aws_secret_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -35,8 +41,10 @@ pub_key is the user's id_rsa.pub file. Just paste the whole contents of that fil
 
 5. edit make-vpc.yml and increment the counter for the id variable:
 "id: '{{bastion_group}}_{{region}}02'" becomes "id: '{{bastion_group}}_{{region}}03'", etc 
-this id variable implements ec2 client tokens for idempotency.
+This may not be strictly necessary, but the id variable implements ec2 client tokens for idempotency.
 
 http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
 
 6. add the vault password you used in step 3 to ~/.vault_pass.txt. chmod 600 ~/.vault_pass.txt
+
+7. From the repo root: ./launchvpc.sh
