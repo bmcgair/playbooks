@@ -25,4 +25,4 @@
       exit 0"
 
 - name: enable firewall
-  command: /etc/network/if-pre-up.d/iptablesload
+  shell: "iptables-restore < /etc/iptables.up.rules"

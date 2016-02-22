@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #### Increment BASTION_ID to launch new box!
-export BASTION_ID="02"
+export BASTION_ID="04"
 export AWS_REGION_CODE="us-west-2"
 export AWS_REGION_NAME="Oregon"
 export VPC_BASE="10.10"
