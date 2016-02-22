@@ -8,7 +8,7 @@ state: "present"
 disable_rollback: "yes"
 keypair: "{{ lookup('env', 'KEYPAIR') }}"
 json_template: "roles/cloudform-launch/files/vpc_build_no_bastion.json"
-mgmt_ip: "24.21.200.124/32"
+mgmt_ip: "{{ lookup('env', 'MGMT_IP') }}"
 vpc_base: "{{ lookup('env', 'VPC_BASE') }}"
 vpc_mask: "16"
 vpc_mask_long: "255.255.0.0"
@@ -60,14 +60,14 @@ vpn_email: "Ubill@mcgair.com"
 
 # DO NOT EDIT BELOW THIS LINE
 vpn_ip_Oregon: 52.36.212.252
-bastion_id_Oregon: i-385ef9e0
-vpc_id_Oregon: vpc-caf71aae
-dmza_subnet_id_Oregon: subnet-4f4f4438
-dmzb_subnet_id_Oregon: subnet-b62bdcd2
-dmzc_subnet_id_Oregon: subnet-33c9ef6a
-privatea_subnet_id_Oregon: subnet-4e4f4439
-privateb_subnet_id_Oregon: subnet-b72bdcd3
-privatec_subnet_id_Oregon: subnet-30c9ef69
+bastion_id_Oregon: i-532c8b8b
+vpc_id_Oregon: vpc-c8f21fac
+dmza_subnet_id_Oregon: subnet-a44348d3
+dmzb_subnet_id_Oregon: subnet-3716e153
+dmzc_subnet_id_Oregon: subnet-8cd5f3d5
+privatea_subnet_id_Oregon: subnet-a24348d5
+privateb_subnet_id_Oregon: subnet-3616e152
+privatec_subnet_id_Oregon: subnet-8dd5f3d4
 
 vpn_ip_Ireland: 52.49.215.71
 bastion_id_Ireland:

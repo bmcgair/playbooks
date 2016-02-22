@@ -20,9 +20,9 @@ COMMIT
 -A INPUT -i eth0 -j ACCEPT
 -A INPUT -i tun0 -j ACCEPT
 -A INPUT -i lo -j ACCEPT
--A INPUT -s {{vpc_base}}.0.0/{{vpc_mask}} -j ACCEPT
 -A INPUT -p tcp -m tcp -m multiport -s {{mgmt_ip}} --ports 10000 -j ACCEPT
 -A INPUT -p tcp -m tcp -m multiport -s {{mgmt_ip}} --ports 22 -j ACCEPT
 -A INPUT -p udp -m udp --dport 1194 -j ACCEPT
+-A INPUT -s {{vpc_base}}.0.0/{{vpc_mask}} -j ACCEPT
 -A FORWARD -i tun0 -j ACCEPT
 COMMIT
