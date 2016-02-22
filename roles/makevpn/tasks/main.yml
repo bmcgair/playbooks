@@ -47,7 +47,7 @@
 - stat: path=/etc/openvpn/servers/{{vpn_name}}/ta.key
   register: ta
 
-- name: generate DH params
+- name: generate DH params... may take a while
   command: /usr/bin/openssl dhparam -out /etc/openvpn/keys/{{ ca_name }}/dh2048.pem 2048
   when: not dh.stat.exists
 

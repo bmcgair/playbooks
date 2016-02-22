@@ -3,21 +3,20 @@
 # stack defaults
 group_vars_path: "Users/billm/repos/playbooks/group_vars/"
 stack_name: "HackOregon"
-owner: "Bill McGair"
+owner: "hackoregon"
 state: "present"
-region: "us-west-2"
 disable_rollback: "yes"
-keypair: "xaas-or"
+keypair: "{{ lookup('env', 'KEYPAIR') }}"
 json_template: "roles/cloudform-launch/files/vpc_build_no_bastion.json"
 mgmt_ip: "24.21.200.124/32"
-vpc_base: "10.10"
+vpc_base: "{{ lookup('env', 'VPC_BASE') }}"
 vpc_mask: "16"
 vpc_mask_long: "255.255.0.0"
 subnet_mask: "20"
 
 # create all security groups
 security_groups:
-  - sg_name: "default"
+  - sg_name: "ssh_only"
     sg_description: "default allow ssh"
     sg_rules:
       - proto: tcp
@@ -40,18 +39,42 @@ security_groups:
       from_port: 10000
       to_port: 10000
       cidr_ip: "{{mgmt_ip}}"
+    - proto: all
+      from_port: -1
+      to_port: -1
+      cidr_ip: "{{vpc_base}}.0.0/{{vpc_mask}}"
 
 # vpn defaults
 # allocate an eip and assign here
 # to persist vpn addr across relaunches
 # of the natvpn box
-vpn_ip: 52.36.212.252
-vpn_name: HackOregonVPN
-vpn_org: HackOregon
-vpn_OU: DevOps Division
-vpn_CN: hackoregon.org
-vpn_city: Portland
-vpn_state: OR
-vpn_country: US
-ca_name:  HackOregonCA
-vpn_email: bill@mcgair.com
+vpn_name: "HackOregonVPN"
+vpn_org: "HackOregon"
+vpn_OU: "DevOps Division"
+vpn_CN: "hackoregon.org"
+vpn_city: "Portland"
+vpn_state: "OR"
+vpn_country: "US"
+ca_name:  "HackOregonCA"
+vpn_email: "Ubill@mcgair.com"
+
+# DO NOT EDIT BELOW THIS LINE
+vpn_ip_Oregon: 52.36.212.252
+bastion_id_Oregon: i-385ef9e0
+vpc_id_Oregon: vpc-caf71aae
+dmza_subnet_id_Oregon: subnet-4f4f4438
+dmzb_subnet_id_Oregon: subnet-b62bdcd2
+dmzc_subnet_id_Oregon: subnet-33c9ef6a
+privatea_subnet_id_Oregon: subnet-4e4f4439
+privateb_subnet_id_Oregon: subnet-b72bdcd3
+privatec_subnet_id_Oregon: subnet-30c9ef69
+
+vpn_ip_Ireland: 52.49.215.71
+bastion_id_Ireland:
+vpc_id_Ireland:
+dmza_subnet_id_Ireland:
+dmzb_subnet_id_Ireland:
+dmzc_subnet_id_Ireland:
+privatea_subnet_id_Ireland:
+privateb_subnet_id_Ireland:
+privatec_subnet_id_Ireland:

@@ -281,28 +281,6 @@
       }
     },
 
-    "PrivateRouteTable" : {
-      "Type" : "AWS::EC2::RouteTable",
-      "Properties" : {
-        "VpcId" : { "Ref" : "VPC" },
-        "Tags" : [
-          { "Key" : "Application", "Value" : { "Ref" : "AWS::StackName" } },
-          { "Key" : "Name", "Value" : "PrivateRouteTable"  },
-          { "Key" : "Tier", "Value" : "private" }
-        ]
-      }
-    },
-
-    "PrivateRoute" : {
-      "Type" : "AWS::EC2::Route",
-      "DependsOn" : "GatewayToInternet",
-      "Properties" : {
-        "RouteTableId" : { "Ref" : "PrivateRouteTable" },
-        "DestinationCidrBlock" : "0.0.0.0/0",
-        "GatewayId" : { "Ref" : "InternetGateway" }
-      }
-    },
-
     "dmzASubnetRouteTableAssociation" : {
       "Type" : "AWS::EC2::SubnetRouteTableAssociation",
       "Properties" : {
@@ -325,32 +303,7 @@
         "SubnetId" : { "Ref" : "SubnetdmzC" },
         "RouteTableId" : { "Ref" : "DMZRouteTable" }
       }
-    },
-
-    "privASubnetRouteTableAssociation" : {
-      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
-      "Properties" : {
-        "SubnetId" : { "Ref" : "SubnetprivA" },
-        "RouteTableId" : { "Ref" : "PrivateRouteTable" }
-      }
-    },
-
-    "privBSubnetRouteTableAssociation" : {
-      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
-      "Properties" : {
-        "SubnetId" : { "Ref" : "SubnetprivB" },
-        "RouteTableId" : { "Ref" : "PrivateRouteTable" }
-      }
-    },
-
-    "privCSubnetRouteTableAssociation" : {
-      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
-      "Properties" : {
-        "SubnetId" : { "Ref" : "SubnetprivC" },
-        "RouteTableId" : { "Ref" : "PrivateRouteTable" }
-      }
     }
-
   },
 
   "Outputs" : {

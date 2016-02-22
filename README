@@ -1,12 +1,7 @@
 #
 # Here are the basic steps to get this repo working
 
-1. Allocate an elastic ip from the aws console.
-
-2. edit group_vars/all/main.yml and add replace the value of "vpn_ip:" with your eip
-to ensure that the vpn ip remains static across instance launches.
-
-3. Change names and values in group_vars/all/main.yml as appropriate
+1. Change names and values in group_vars/all/main.yml as appropriate
 
 4. Use ansible-vault to create the vault file:
 ansible-vault create group_vars/all/vault
@@ -45,6 +40,9 @@ This may not be strictly necessary, but the id variable implements ec2 client to
 
 http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
 
-6. add the vault password you used in step 3 to ~/.vault_pass.txt. chmod 600 ~/.vault_pass.txt
+6. edit all localized names in make-vpc.yml. update hosts: tag_Name_natvpn_hackoregon
+in particular. the last portion should match the "owner" var.
+
+7. add the vault password you used in step 3 to ~/.vault_pass.txt. chmod 600 ~/.vault_pass.txt
 
 7. From the repo root: ./launchvpc.sh

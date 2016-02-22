@@ -1,0 +1,34 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: true
+  vars:
+    region: "{{ lookup('env', 'AWS_REGION_CODE') }}"
+    region_name: "{{ lookup('env', 'AWS_REGION_NAME') }}"
+
+  tasks:
+    - name: assign the elastic ip
+      ec2_eip:
+        in_vpc: yes
+        reuse_existing_ip_allowed: yes
+        state: present
+        region: "{{region}}"
+        device_id: "{{bastion_id_Oregon}}"
+        ip: "{{vpn_ip_Oregon}}"
+      when: region == "us-west-2"
+
+    - name: NAT Oregon private networks
+      ec2_vpc_route_table:
+        region: "{{region}}"
+        tags:
+          Name: NAT Private networks
+        vpc_id: "{{vpc_id_Oregon}}"
+        subnets:
+          - "{{privatea_subnet_id_Oregon}}"
+          - "{{privateb_subnet_id_Oregon}}"
+          - "{{privatec_subnet_id_Oregon}}"
+        routes:
+          - dest: 0.0.0.0/0
+            instance_id: "{{bastion_id_Oregon}}"
+      when: region_name == "Oregon"

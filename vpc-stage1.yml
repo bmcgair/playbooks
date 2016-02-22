@@ -1,0 +1,29 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: true
+
+  vars:
+    region: "{{ lookup('env', 'AWS_REGION_CODE') }}"
+    region_name: "{{ lookup('env', 'AWS_REGION_NAME') }}"
+
+  pre_tasks:
+    - name: create eip if needed
+      ec2_eip:
+        in_vpc: yes
+        reuse_existing_ip_allowed: yes
+        state: present
+        region: "{{region}}"
+      register: eip
+      when: vpn_ip_{{region_name}} is none
+
+    - name: update vpn_ip to "{{eip.public_ip}}"
+      replace:
+        dest: "/{{group_vars_path}}all/main.yml"
+        regexp: "^vpn_ip_{{region_name}}:.*$"
+        replace: "vpn_ip_{{region_name}}: {{eip.public_ip}}"
+      when: vpn_ip_{{region_name}} is none
+
+  roles:
+    - cloudform-launch

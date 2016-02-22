@@ -12,6 +12,7 @@
     group: "{{group}}"
     assign_public_ip: "{{assign_public_ip}}"
     instance_tags: "{{instance_tags}}"
+    source_dest_check: "{{source_dest_check}}"
     id: "{{id}}"
     wait: "{{wait}}"
   register: ec2_info
@@ -28,21 +29,11 @@
     bastion_id: "{{item.id}}"
   with_items: "{{ec2_info.instances}}"
 
-# - set_fact:
-#     vpn_ip: "{{item.public_ip}}"
-#   with_items: "{{ec2_info.instances}}"
-
-# - name: remove old "/{{group_vars_path}}tag_Name_{{group}}"
-#   file:
-#     path: "/{{group_vars_path}}tag_Name_{{group}}"
-#     state: absent
-#
-# - name: update vpn_ip var to {{vpn_ip}}
-#   lineinfile:
-#     dest: "/{{group_vars_path}}tag_Name_{{group}}"
-#     line: "vpn_ip: {{vpn_ip}}"
-#     state: present
-#     create: true
+- name: update bastion_id_{{region_name}} to "{{bastion_id}}"
+  replace:
+     dest: "/{{group_vars_path}}all/main.yml"
+     regexp: "^bastion_id_{{region_name}}:.*$"
+     replace: "bastion_id_{{region_name}}: {{bastion_id}}"
 
 - name: wait for instances to listen on port:22
   wait_for:
