@@ -60,14 +60,14 @@ vpn_email: "Ubill@mcgair.com"
 
 # DO NOT EDIT BELOW THIS LINE
 vpn_ip_Oregon: 52.36.212.252
-bastion_id_Oregon: i-532c8b8b
-vpc_id_Oregon: vpc-c8f21fac
-dmza_subnet_id_Oregon: subnet-a44348d3
-dmzb_subnet_id_Oregon: subnet-3716e153
-dmzc_subnet_id_Oregon: subnet-8cd5f3d5
-privatea_subnet_id_Oregon: subnet-a24348d5
-privateb_subnet_id_Oregon: subnet-3616e152
-privatec_subnet_id_Oregon: subnet-8dd5f3d4
+bastion_id_Oregon: i-723592aa
+vpc_id_Oregon: vpc-a6cc21c2
+dmza_subnet_id_Oregon: subnet-b1414ac6
+dmzb_subnet_id_Oregon: subnet-3a14e35e
+dmzc_subnet_id_Oregon: subnet-f0d3f5a9
+privatea_subnet_id_Oregon: subnet-b2414ac5
+privateb_subnet_id_Oregon: subnet-3914e35d
+privatec_subnet_id_Oregon: subnet-f3d3f5aa
 
 vpn_ip_Ireland: 52.49.215.71
 bastion_id_Ireland:
