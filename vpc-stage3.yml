@@ -4,31 +4,35 @@
   connection: local
   gather_facts: true
   vars:
-    region: "{{ lookup('env', 'AWS_REGION_CODE') }}"
-    region_name: "{{ lookup('env', 'AWS_REGION_NAME') }}"
+    region: "{{ lookup('env', 'REGION') }}"
+
+  pre_tasks:
+    - include_vars: "{{playbook_dir}}/group_vars/{{region}}"
 
   tasks:
+
     - name: assign the elastic ip
       ec2_eip:
         in_vpc: yes
         reuse_existing_ip_allowed: yes
         state: present
         region: "{{region}}"
-        device_id: "{{bastion_id_Oregon}}"
-        ip: "{{vpn_ip_Oregon}}"
-      when: region == "us-west-2"
+        device_id: "{{bastion_instance}}"
+        ip: "{{vpn_ip}}"
 
+    - debug: var=bastion_instance
     - name: NAT Oregon private networks
       ec2_vpc_route_table:
         region: "{{region}}"
         tags:
           Name: NAT Private networks
-        vpc_id: "{{vpc_id_Oregon}}"
+        vpc_id: "{{vpc_id}}"
         subnets:
-          - "{{privatea_subnet_id_Oregon}}"
-          - "{{privateb_subnet_id_Oregon}}"
-          - "{{privatec_subnet_id_Oregon}}"
+          - "{{privatea_subnet_id}}"
+          - "{{privateb_subnet_id}}"
+          - "{{privatec_subnet_id}}"
         routes:
           - dest: 0.0.0.0/0
-            instance_id: "{{bastion_id_Oregon}}"
-      when: region_name == "Oregon"
+            instance_id: "{{bastion_instance}}"
+
+    - debug: msg="Download {{region}} VPN credentials from http://{{vpn_ip}}:10000" 

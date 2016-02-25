@@ -5,10 +5,27 @@
   gather_facts: true
 
   vars:
-    region: "{{ lookup('env', 'AWS_REGION_CODE') }}"
-    region_name: "{{ lookup('env', 'AWS_REGION_NAME') }}"
+    region: "{{ lookup('env', 'REGION') }}"
 
   pre_tasks:
+
+    - name: create region config"
+      blockinfile:
+        dest: "{{playbook_dir}}/group_vars/{{region}}"
+        create: yes
+        state: present
+        block: |
+          vpc_id:
+          vpn_ip:
+          bastion_instance:
+          dmza_subnet_id:
+          dmzb_subnet_id:
+          dmzc_subnet_id:
+          privatea_subnet_id:
+          privateb_subnet_id:
+          privatec_subnet_id:
+      when: vpn_ip is undefined
+
     - name: create eip if needed
       ec2_eip:
         in_vpc: yes
@@ -16,14 +33,14 @@
         state: present
         region: "{{region}}"
       register: eip
-      when: vpn_ip_{{region_name}} is none
+      when: vpn_ip is undefined
 
     - name: update vpn_ip to "{{eip.public_ip}}"
       replace:
-        dest: "/{{group_vars_path}}all/main.yml"
-        regexp: "^vpn_ip_{{region_name}}:.*$"
-        replace: "vpn_ip_{{region_name}}: {{eip.public_ip}}"
-      when: vpn_ip_{{region_name}} is none
+        dest: "{{playbook_dir}}/group_vars/{{region}}"
+        regexp: "^vpn_ip:.*$"
+        replace: "vpn_ip: {{eip.public_ip}}"
+      when: vpn_ip is undefined
 
   roles:
     - cloudform-launch

@@ -1,21 +1,32 @@
 ---
 
-# stack defaults
-group_vars_path: "Users/billm/repos/playbooks/group_vars/"
+# stack network settings
 stack_name: "HackOregon"
 owner: "hackoregon"
 state: "present"
 disable_rollback: "yes"
 keypair: "{{ lookup('env', 'KEYPAIR') }}"
-json_template: "roles/cloudform-launch/files/vpc_build_no_bastion.json"
+json_template: "roles/cloudform-launch/files/vpc_build.json"
 mgmt_ip: "{{ lookup('env', 'MGMT_IP') }}"
 vpc_base: "{{ lookup('env', 'VPC_BASE') }}"
 vpc_mask: "16"
 vpc_mask_long: "255.255.0.0"
 subnet_mask: "20"
 
-# create all security groups
+# vpn settings
+vpn_name: "HackOregonVPN"
+vpn_org: "HackOregon"
+vpn_OU: "DevOps Division"
+vpn_CN: "hackoregon.org"
+vpn_city: "Portland"
+vpn_state: "OR"
+vpn_country: "US"
+ca_name:  "HackOregonCA"
+vpn_email: "bill@mcgair.com"
+
+# security groups
 security_groups:
+
   - sg_name: "ssh_only"
     sg_description: "default allow ssh"
     sg_rules:
@@ -43,38 +54,3 @@ security_groups:
       from_port: -1
       to_port: -1
       cidr_ip: "{{vpc_base}}.0.0/{{vpc_mask}}"
-
-# vpn defaults
-# allocate an eip and assign here
-# to persist vpn addr across relaunches
-# of the natvpn box
-vpn_name: "HackOregonVPN"
-vpn_org: "HackOregon"
-vpn_OU: "DevOps Division"
-vpn_CN: "hackoregon.org"
-vpn_city: "Portland"
-vpn_state: "OR"
-vpn_country: "US"
-ca_name:  "HackOregonCA"
-vpn_email: "Ubill@mcgair.com"
-
-# DO NOT EDIT BELOW THIS LINE
-vpn_ip_Oregon: 52.36.212.252
-bastion_id_Oregon: i-2b3e99f3
-vpc_id_Oregon: vpc-d1ce23b5
-dmza_subnet_id_Oregon: subnet-e1474c96
-dmzb_subnet_id_Oregon: subnet-4912e52d
-dmzc_subnet_id_Oregon: subnet-01d1f758
-privatea_subnet_id_Oregon: subnet-ef474c98
-privateb_subnet_id_Oregon: subnet-4b12e52f
-privatec_subnet_id_Oregon: subnet-0ed1f757
-
-vpn_ip_Ireland: 52.49.215.71
-bastion_id_Ireland:
-vpc_id_Ireland:
-dmza_subnet_id_Ireland:
-dmzb_subnet_id_Ireland:
-dmzc_subnet_id_Ireland:
-privatea_subnet_id_Ireland:
-privateb_subnet_id_Ireland:
-privatec_subnet_id_Ireland:

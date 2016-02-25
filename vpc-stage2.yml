@@ -4,49 +4,40 @@
   connection: local
   gather_facts: true
 
+
   vars:
-    region: "{{ lookup('env', 'AWS_REGION_CODE') }}"
-    region_name: "{{ lookup('env', 'AWS_REGION_NAME') }}"
-    bastion_id: "{{ lookup('env', 'BASTION_ID') }}"
+    region: "{{ lookup('env', 'REGION') }}"
+    idempotent_id: "{{ lookup('env', 'BASTION_IDEMPOTENT_ID') }}"
     instance_type: t2.nano
     count: 1
     assign_public_ip: yes
-    image: "{{ lookup('env', 'AMI') }}"
+    image_name: "{{ lookup('env', 'BASTION_IMAGE_NAME') }}"
+    image_owner: "{{ lookup('env', 'BASTION_IMAGE_OWNER') }}"
     wait: yes
     instance_tags: '{"Name":"{{application}}_{{owner}}","Role":"{{application}}"}'
     source_dest_check: "no"
     application: natvpn
     owner: hackoregon
     bastion_group: '{{application}}_{{owner}}'
-
-    id: '{{bastion_group}}_{{region_name}}{{bastion_id}}'
+    id: "{{bastion_group}}{{idempotent_id}}}"
 
   pre_tasks:
-    - set_fact:
-        vpc_id: "{{vpc_id_Oregon}}"
-      when: region == "us-west-2"
-    - set_fact:
-        vpc_subnet_id: "{{dmza_subnet_id_Oregon}}"
-      when: region == "us-west-2"
+    - include_vars: "{{playbook_dir}}/group_vars/{{region}}"
 
   roles:
     - { role: ec2-provision-groups }
-    - { role: ec2-provision-instance, group: "{{bastion_group}}" }
+    - { role: aws-provision-iam }
+    - { role: ec2-provision-instance, vpc_subnet_id: "{{dmza_subnet_id}}", group: "{{bastion_group}}" }
 
 - name: Configure natvpn instance(s)
   hosts: tag_Name_natvpn_hackoregon
   user: ubuntu
   become: yes
   vars:
-    region: "{{ lookup('env', 'AWS_REGION_CODE') }}"
-    region_name: "{{ lookup('env', 'AWS_REGION_NAME') }}"
+    region: "{{ lookup('env', 'REGION') }}"
 
   pre_tasks:
-    - include_vars: group_vars/all/main.yml
-
-    - set_fact:
-        vpn_ip: "{{vpn_ip_Oregon}}"
-      when: region == "us-west-2"
+    - include_vars: "{{playbook_dir}}/group_vars/{{region}}"
 
   roles:
     - webmin
