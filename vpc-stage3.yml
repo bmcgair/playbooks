@@ -3,8 +3,9 @@
 - hosts: localhost
   connection: local
   gather_facts: true
-  vars:
-    region: "{{ lookup('env', 'REGION') }}"
+  
+  #vars:
+  #  region: "{{ lookup('env', 'AWS_REGION') }}"
 
   pre_tasks:
     - include_vars: "{{playbook_dir}}/group_vars/{{region}}"
@@ -35,4 +36,4 @@
           - dest: 0.0.0.0/0
             instance_id: "{{bastion_instance}}"
 
-    - debug: msg="Download {{region}} VPN credentials from http://{{vpn_ip}}:10000" 
+    - debug: msg="Download {{region}} VPN credentials from http://{{vpn_ip}}:10000"

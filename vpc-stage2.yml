@@ -4,9 +4,8 @@
   connection: local
   gather_facts: true
 
-
   vars:
-    region: "{{ lookup('env', 'REGION') }}"
+    region: "{{ lookup('env', 'AWS_REGION') }}"
     idempotent_id: "{{ lookup('env', 'BASTION_IDEMPOTENT_ID') }}"
     instance_type: t2.nano
     count: 1
@@ -27,14 +26,7 @@
   roles:
     - { role: ec2-provision-groups }
     - { role: aws-provision-iam }
-    - { role: ec2-provision-instance, vpc_subnet_id: "{{dmza_subnet_id}}", group: "{{bastion_group}}" }
-
-- name: Configure natvpn instance(s)
-  hosts: tag_Name_natvpn_hackoregon
-  user: ubuntu
-  become: yes
-  vars:
-    region: "{{ lookup('env', 'REGION') }}"
+    - { role: ec2-provision-bastion, vpc_subnet_id: "{{dmza_subnet_id}}", group: "{{bastion_group}}" }
 
   pre_tasks:
     - include_vars: "{{playbook_dir}}/group_vars/{{region}}"

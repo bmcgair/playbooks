@@ -5,13 +5,18 @@ stack_name: "HackOregon"
 owner: "hackoregon"
 state: "present"
 disable_rollback: "yes"
+region: "{{ lookup('env', 'AWS_REGION') }}"
 keypair: "{{ lookup('env', 'KEYPAIR') }}"
-json_template: "roles/cloudform-launch/files/vpc_build.json"
 mgmt_ip: "{{ lookup('env', 'MGMT_IP') }}"
 vpc_base: "{{ lookup('env', 'VPC_BASE') }}"
 vpc_mask: "16"
 vpc_mask_long: "255.255.0.0"
 subnet_mask: "20"
+json_template: "roles/cloudform-launch/files/vpc_build.json"
+AvailabilityZoneA: "{{ lookup('env', 'ZONEA') }}"
+AvailabilityZoneB: "{{ lookup('env', 'ZONEB') }}"
+AvailabilityZoneC: "{{ lookup('env', 'ZONEC') }}"
+
 
 # vpn settings
 vpn_name: "HackOregonVPN"
@@ -54,3 +59,11 @@ security_groups:
       from_port: -1
       to_port: -1
       cidr_ip: "{{vpc_base}}.0.0/{{vpc_mask}}"
+
+  - sg_name: "dockerSG"
+    sg_description: "default allow ssh"
+    sg_rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0

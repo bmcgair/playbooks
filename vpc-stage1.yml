@@ -4,8 +4,8 @@
   connection: local
   gather_facts: true
 
-  vars:
-    region: "{{ lookup('env', 'REGION') }}"
+#  vars:
+#    region: "{{ lookup('env', 'AWS_REGION') }}"
 
   pre_tasks:
 

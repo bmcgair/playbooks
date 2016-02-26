@@ -33,6 +33,17 @@
 - add_host: hostname={{item.public_ip}} groupname=tag_Name_{{group}}
   with_items: ec2_info.instances
 
+- debug: var=idempotent_id
+- set_fact:
+    bastion_instance: "{{item.id}}"
+  with_items: "{{ec2_info.instances}}"
+
+- name: update bastion_instance to {{bastion_instance}}
+  replace:
+     dest: "{{playbook_dir}}/group_vars/{{region}}"
+     regexp: "^bastion_instance:.*$"
+     replace: "bastion_instance: {{bastion_instance}}"
+
 - name: wait for instances to listen on port:22
   wait_for:
     state: started
