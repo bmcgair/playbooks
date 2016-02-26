@@ -32,7 +32,7 @@
         - proto: tcp
           from_port: 22
           to_port: 22
-          cidr_ip: "{{vpc_base}}.0.0/{{vpc_mask}}"
+          cidr_ip: "0.0.0.0/0"
         - proto: tcp
           from_port: 443
           to_port: 443
@@ -75,7 +75,7 @@
   - name: set ECS Service Policy
     iam_policy:
       iam_type: role
-      iam_name: "{{cluster_name}}-instance-role"
+      iam_name: "{{cluster_name}}-service-role"
       policy_name: "AmazonEC2ContainerServiceRolePolicy"
       policy_document: "{{playbook_dir}}/roles/aws-provision-iam/files/ContainerServicePolicy.json"
       state: present
@@ -83,7 +83,7 @@
   - name: set ECS Instance Policy
     iam_policy:
       iam_type: role
-      iam_name: "{{cluster_name}}-service-role"
+      iam_name: "{{cluster_name}}-instance-role"
       policy_name: "AmazonEC2ContainerServiceforEC2Policy"
       policy_document: "{{playbook_dir}}/roles/aws-provision-iam/files/ContainerServiceforEC2Policy.json"
       state: present
@@ -111,7 +111,9 @@
       region: "{{region}}"
       state: present
       instance_monitoring: "{{instance_monitoring}}"
-      user_data: "#!/bin/bash; echo ECS_CLUSTER={{cluster_name}} > /etc/ecs/ecs.config"
+      user_data: |
+        #!/bin/bash
+        echo ECS_CLUSTER="{{cluster_name}}" > /etc/ecs/ecs.config
     register: lc_out
     tags: "{{cluster_name}}"
 
@@ -122,8 +124,8 @@
       health_check_period: "{{health_check_period}}"
       health_check_type: "{{health_check_type}}"
       min_size: "{{min_size}}"
-      max_size: "{{max_siz3}}"
-      desired_capacity: "desired_capacity"
+      max_size: "{{max_size}}"
+      desired_capacity: "{{desired_capacity}}"
       region: "{{region}}"
       load_balancers:
         - "{{cluster_name}}ELB"

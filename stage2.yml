@@ -10,8 +10,8 @@
     instance_type: t2.nano
     count: 1
     assign_public_ip: yes
-    image_name: "{{ lookup('env', 'BASTION_IMAGE_NAME') }}"
-    image_owner: "{{ lookup('env', 'BASTION_IMAGE_OWNER') }}"
+    image_name: "ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-*"
+    image_owner: "099720109477"
     wait: yes
     instance_tags: '{"Name":"{{application}}_{{owner}}","Role":"{{application}}"}'
     source_dest_check: "no"
@@ -25,12 +25,18 @@
 
   roles:
     - { role: ec2-provision-groups }
-    - { role: aws-provision-iam }
+    #- { role: aws-provision-iam }
     - { role: ec2-provision-bastion, vpc_subnet_id: "{{dmza_subnet_id}}", group: "{{bastion_group}}" }
+
+- name: Configure natvpn instance(s)
+  hosts: tag_Name_natvpn_hackoregon
+  user: ubuntu
+  become: yes
+  vars:
+    region: "{{ lookup('env', 'AWS_REGION') }}"
 
   pre_tasks:
     - include_vars: "{{playbook_dir}}/group_vars/{{region}}"
-
   roles:
     - webmin
     - iptables

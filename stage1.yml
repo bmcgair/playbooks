@@ -4,10 +4,12 @@
   connection: local
   gather_facts: true
 
-#  vars:
-#    region: "{{ lookup('env', 'AWS_REGION') }}"
+  vars:
+    region: "{{ lookup('env', 'AWS_REGION') }}"
 
   pre_tasks:
+    - file: path="{{playbook_dir}}/group_vars/{{region}}" state=touch
+    - include_vars: "{{playbook_dir}}/group_vars/{{region}}"
 
     - name: create region config"
       blockinfile:

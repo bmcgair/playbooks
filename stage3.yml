@@ -3,9 +3,9 @@
 - hosts: localhost
   connection: local
   gather_facts: true
-  
-  #vars:
-  #  region: "{{ lookup('env', 'AWS_REGION') }}"
+
+  vars:
+    region: "{{ lookup('env', 'AWS_REGION') }}"
 
   pre_tasks:
     - include_vars: "{{playbook_dir}}/group_vars/{{region}}"
