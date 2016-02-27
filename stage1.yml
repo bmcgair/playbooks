@@ -4,14 +4,11 @@
   connection: local
   gather_facts: true
 
-  vars:
-    region: "{{ lookup('env', 'AWS_REGION') }}"
-
   pre_tasks:
     - file: path="{{playbook_dir}}/group_vars/{{region}}" state=touch
     - include_vars: "{{playbook_dir}}/group_vars/{{region}}"
 
-    - name: create region config"
+    - name: create region config
       blockinfile:
         dest: "{{playbook_dir}}/group_vars/{{region}}"
         create: yes
@@ -37,7 +34,7 @@
       register: eip
       when: vpn_ip is undefined
 
-    - name: update vpn_ip to "{{eip.public_ip}}"
+    - name: update vpn_ip
       replace:
         dest: "{{playbook_dir}}/group_vars/{{region}}"
         regexp: "^vpn_ip:.*$"

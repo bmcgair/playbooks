@@ -58,7 +58,6 @@
           load_balancer_port: 80
           instance_port: 80
     register: elb_out
-  #- debug: var=elb_out
 
   - name: create ECS Service Scheduler IAM Role
     iam:
@@ -98,15 +97,13 @@
       sort_end: 1
     register: ami_find
 
-  #- debug: var=ami_find.results[0].ami_id
-
   - name: create launch config
     ec2_lc:
       name: "{{cluster_name}}LC"
       image_id: "{{ami_find.results[0].ami_id}}"
       key_name: "{{keypair}}"
       security_groups: "{{instance_sg_out.group_id}}"
-      instance_type: "t2.micro"
+      instance_type: "{{instance_type}}"
       instance_profile_name: "{{cluster_name}}-instance-role"
       region: "{{region}}"
       state: present
@@ -130,6 +127,10 @@
       load_balancers:
         - "{{cluster_name}}ELB"
       replace_all_instances: "{{replace_all_instances}}"
+      tags:
+        - Name: "{{cluster_name}} Instance"
+        - Owner: "{{owner}}"
+        - Role: "ECS"
       vpc_zone_identifier:
         - "{{privatea_subnet_id}}"
         - "{{privateb_subnet_id}}"

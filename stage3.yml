@@ -5,12 +5,22 @@
   gather_facts: true
 
   vars:
-    region: "{{ lookup('env', 'AWS_REGION') }}"
+
+    image_name: "aws-marketplace/amzn-ami-2015.09.f-amazon-ecs-optimized-*"
+    image_owner: "679593333241"
+
+    cluster_name: "my-sad-little-cluster"
+    instance_type: "t2.micro"
+    instance_monitoring: "no"
+    health_check_period: "300"
+    health_check_type: "EC2"
+    min_size: 2
+    max_size: 4
+    desired_capacity: 3
+    replace_all_instances: "yes"
 
   pre_tasks:
     - include_vars: "{{playbook_dir}}/group_vars/{{region}}"
-
-  tasks:
 
     - name: assign the elastic ip
       ec2_eip:
@@ -21,7 +31,6 @@
         device_id: "{{bastion_instance}}"
         ip: "{{vpn_ip}}"
 
-    - debug: var=bastion_instance
     - name: NAT Oregon private networks
       ec2_vpc_route_table:
         region: "{{region}}"
@@ -36,4 +45,8 @@
           - dest: 0.0.0.0/0
             instance_id: "{{bastion_instance}}"
 
-    - debug: msg="Download {{region}} VPN credentials from http://{{vpn_ip}}:10000"
+  roles:
+    - ec2-provision-ecs
+
+  post_tasks:
+   - debug: msg="Download {{region}} VPN credentials from https://{{vpn_ip}}:10000"
