@@ -15,6 +15,6 @@ export VPC_BASE="10.10"
 export KEYPAIR="xaas-or"
 export MGMT_IP="`curl -s icanhazip.com`/32"
 
-#/usr/local/bin/ansible-playbook -i contribl/ec2.py ./stage1.yml
-#/usr/local/bin/ansible-playbook -i contribl/ec2.py ./stage2.yml
+/usr/local/bin/ansible-playbook -i contribl/ec2.py ./stage1.yml
+/usr/local/bin/ansible-playbook -i contribl/ec2.py ./stage2.yml
 /usr/local/bin/ansible-playbook -i contribl/ec2.py ./stage3.yml
